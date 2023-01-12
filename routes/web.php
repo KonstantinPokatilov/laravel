@@ -22,7 +22,7 @@ Route::get('/hello/{name}', static function (string $name) : string {
 });
 
 Route::get('/info', static function () : string {
-    return "information";
+    return "information page";
 });
 
 Route::get('/news/{id}', static function (int $id) : string {
