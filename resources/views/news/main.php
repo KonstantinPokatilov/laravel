@@ -1,0 +1,1 @@
+<a href="<?= route('news.categories') ?>">Новости</a>

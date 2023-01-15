@@ -15,10 +15,17 @@ use App\Http\Controllers\NewsController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('news.main');
 });
 
 Route::group(['prefix' => ''], static function() {
+    
+    Route::get('/cat', [NewsController::class, 'getCategories'])
+        ->name('news.categories');
+    
+    Route::get('/news/{id}/category', [NewsController::class, 'getNewsByCategories'])
+        ->name('news.category');
+
     Route::get('/news', [NewsController::class, 'index'])
         ->name('news');
 

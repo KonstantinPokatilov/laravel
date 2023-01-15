@@ -1,5 +1,5 @@
 <?php foreach ($news as $i): ?>
-    <div style="border: 1px solid green">
+    <div style="border: 1px solid green" category="<?= $i['category']?>">
         <h2><?=$i['title']?></h2>
         <p><?=$i['description']?></p>
         <div><strong><?=$i['author']?> (<?=$i['created_at']?>)</strong>
