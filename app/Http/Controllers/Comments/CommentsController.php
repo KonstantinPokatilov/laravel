@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Comments;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\View\View;
+use App\Http\Controllers\NewsController;
 
-
-class NewsController extends Controller
+class CommentsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() : View
+    public function index()
     {
-        return \view('admin.news.index');
+        //
     }
 
     /**
@@ -24,9 +23,9 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() : View
+    public function create()
     {
-        return \view('admin.news.create');
+        
     }
 
     /**
@@ -37,11 +36,13 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required'
-        ]);
-
-        return response()->json($request->only(['title', 'author', 'description']));
+        $req = $request->input();
+        $news_trait = new NewsController;
+        $file_path = __DIR__ .'/Comments.txt';
+        $file_data = PHP_EOL . $req['username'] . ': ' . $req['comment'];
+        file_put_contents($file_path, $file_data, FILE_APPEND);
+        
+        return \view('news.show', ['news' => $news_trait->getNews($req['id'])]);
     }
 
     /**

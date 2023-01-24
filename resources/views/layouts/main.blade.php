@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
 
-    <title>Blog Template for Bootstrap</title>
+    <title>News</title>
 
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 
@@ -28,7 +28,10 @@
         <div class="row mb-2">
         @yield('content') 
         </div>
+        
     </div>
+
+    @yield('feedback')
 
     <x-footer></x-footer>
 

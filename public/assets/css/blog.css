@@ -63,6 +63,7 @@ h6 {
 .card-img-right {
     height: 100%;
     border-radius: 0 3px 3px 0;
+    max-height: 250px;
 }
 
 .flex-auto {
@@ -152,4 +153,8 @@ h6 {
 
 .blog-footer p:last-child {
     margin-bottom: 0;
+}
+
+.comment-title {
+    font-size: 20px;
 }

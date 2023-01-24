@@ -3,6 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\Admin\IndexController as AdminController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Comments\CommentsController as CommentsController;
+use App\Http\Controllers\News\NewsDataController;
+
+
+
 
 
 /*
@@ -20,9 +27,12 @@ Route::get('/', [NewsController::class, 'index'])
         ->name('news');
 
 //admin routes
-Route::group(['prefix' => ''], static function () {
-    Route::get('/admin', AdminController::class)
-        ->name('admin.index');
+Route::group(['prefix' => 'admin', 'as' => 'admin.' ], static function () {
+    Route::get('/', AdminController::class)
+        ->name('index');
+    Route::resource('categories', AdminCategoryController::class);
+    Route::resource('news', AdminNewsController::class);
+
 });
 
 Route::group(['prefix' => ''], static function() {
@@ -34,3 +44,13 @@ Route::group(['prefix' => ''], static function() {
         ->where('id', '\d+')
         ->name('news.show');
 });
+
+Route::group(['prefix' => 'comment', 'as' => 'comment.'], static function() {
+    Route::resource('create', CommentsController::class);
+});
+
+Route::group(['prefix' => 'data', 'as' => 'data.'], static function() {
+    Route::resource('get', NewsDataController::class);
+});
+
+
