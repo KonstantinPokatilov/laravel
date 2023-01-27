@@ -29,9 +29,9 @@
         @yield('content') 
         </div>
         
+        @yield('feedback')
     </div>
 
-    @yield('feedback')
 
     <x-footer></x-footer>
 

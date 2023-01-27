@@ -6,24 +6,39 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use App\Models\News as NewsModel;
+use App\Models\Category as CategoryModel;
 
 
 class NewsController extends Controller
 {
-    use NewsTrait;
-
     public function index() : View
     {
-        return \view('news.index', ['news' => $this->getNews(), 'categories' => $this->getNewsCategories() ]);
+        $newsModel = new NewsModel();
+        $newsList = $newsModel->getNews();
+
+        $categoryModel = new CategoryModel();
+        $categoryList = $categoryModel->get();
+
+        return \view('news.index', ['news' => $newsList, 'categories' => $categoryList ]);
     }
 
     public function show(int $id) : View
     {
-        return \view('news.show', ['news' => $this->getNews($id)]);
+        $newsModel = new NewsModel();
+        $news = $newsModel->getNewsById($id);
+
+        return \view('news.show', ['news' => $news]);
     }
 
     public function getNewsByCategories(int $id) : View
     {
-        return \view('news.index', ['news' => $this->getNewsByCategory($id), 'categories' => $this->getNewsCategories()]);
+        $newsModel = new NewsModel();
+        $news = $newsModel->getNewsByCategoryId($id);
+
+        $categoryModel = new CategoryModel();
+        $categoryList = $categoryModel->get();
+
+        return \view('news.index', ['news' => $news, 'categories' => $categoryList]);
     }
 }

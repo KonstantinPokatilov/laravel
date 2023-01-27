@@ -2,14 +2,14 @@
 @section('content')
     <div class="show-flex">
         <div class="blog-post">
-            <h2 class="blog-post-title">{{ $news['title'] }}</h2>
-            <p class="blog-post-meta">{{ $news['created_at'] }} by <a href="#">{{ $news['author'] }}</a></p>
-            <p>{!! $news['description'] !!}</p>
+            <h2 class="blog-post-title">{{ $news->title }}</h2>
+            <p class="blog-post-meta">{{ $news->created_at }} by <a href="#">{{ $news->author }}</a></p>
+            <p>{!! $news->description !!}</p>
         </div>
 
         <div>
             <div class="comment-title">Добавить комментарий: </div>
-                <form method="POST" action="{{ route('comment.create.store', ['id' => $news['id']]) }}">
+                <form method="POST" action="{{ route('comment.create.store', ['id' => $news->id]) }}">
                     @csrf
                     <div class="form-group">
                         <label for="username">Имя</label>
