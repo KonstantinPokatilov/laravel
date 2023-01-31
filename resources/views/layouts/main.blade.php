@@ -27,6 +27,7 @@
 
         <div class="row mb-2">
         @yield('content') 
+        
         </div>
         
         @yield('feedback')

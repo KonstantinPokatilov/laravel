@@ -12,6 +12,11 @@ class Category extends Model
 
     protected $table = 'categories';
 
+    protected $fillable = [
+        'title',
+        'description',
+    ];
+
     public function get() : Collection
     {
         return \DB::table($this->table)->select(['id', 'title'])->get();

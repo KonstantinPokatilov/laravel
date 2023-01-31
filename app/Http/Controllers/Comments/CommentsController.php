@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Comments;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\NewsController;
+use App\QueryBuilders\CommentsQueryBuilder;
+use App\Models\Comments as CommentsModel;
+
 
 class CommentsController extends Controller
 {
@@ -20,10 +23,10 @@ class CommentsController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         
     }
@@ -35,14 +38,11 @@ class CommentsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $req = $request->input();
-        $news_trait = new NewsController;
-        $file_path = __DIR__ .'/Comments.txt';
-        $file_data = PHP_EOL . $req['username'] . ': ' . $req['comment'];
-        file_put_contents($file_path, $file_data, FILE_APPEND);
-        
-        return \view('news.show', ['news' => $news_trait->getNews($req['id'])]);
+    {   
+        $comments_model = new CommentsModel($request->except('_token'), $request->query);
+        if ($comments_model->save()) {
+            return \redirect()->route('news.show', ['news_id' => $request->news_id]);
+        }
     }
 
     /**
@@ -76,7 +76,7 @@ class CommentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**

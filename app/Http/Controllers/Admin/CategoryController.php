@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\QueryBuilders\CategoryQueryBuilder;
+use App\Models\Category as CategoryModel;
 
 class CategoryController extends Controller
 {
@@ -12,9 +14,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(CategoryQueryBuilder $categoryQueryBuilder)
     {
-        //
+        return \view('admin.categories.index', [
+            'categoriesList' => $categoryQueryBuilder->getCategoriesWithPagination(),
+        ]);
     }
 
     /**
@@ -24,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return \view('admin.categories.create');
     }
 
     /**
@@ -35,7 +39,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required'
+        ]);
+
+        $category = new CategoryModel($request->except('_token'));
+
+        if ($category->save()) {
+            return \redirect()->route('admin.categories.index')->with('success', 'Категория добавлена');
+        }
+        return \back()->with('error', 'Не удалось сохранить категорию');
     }
 
     /**
@@ -55,9 +68,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(CategoryModel $category)
     {
-        //
+        return \view('admin.categories.edit', [
+            'category' => $category,
+        ]);
     }
 
     /**
@@ -67,9 +82,13 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, CategoryModel $category)
     {
-        //
+        $category->fill($request->except('_token'));
+        if ($category->save()) {
+            return \redirect()->route('admin.categories.index')->with('success', 'Категория обновлена');
+        }
+        return \back()->with('error', 'Не удалось сохранить категорию');
     }
 
     /**
@@ -80,6 +99,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        dd('asdasdad');
     }
 }

@@ -8,13 +8,13 @@
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link @if(request()->routeIs('admin.categoties.*')) active @endif" href="#">
+            <a class="nav-link @if(request()->routeIs('admin.categories.*')) active @endif" href="{{ route('admin.categories.index') }}">
                 <span data-feather="file"></span>
                 Категории
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link @if(request()->routeIs('admin.news.*')) active @endif" href="{{ route('admin.news.create') }}">
+            <a class="nav-link @if(request()->routeIs('admin.news.*')) active @endif" href="{{ route('admin.news.index') }}">
                 <span data-feather="shopping-cart"></span>
                 Новости
             </a>

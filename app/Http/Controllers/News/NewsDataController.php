@@ -5,6 +5,8 @@ namespace App\Http\Controllers\News;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\NewsController;
+use App\QueryBuilders\OrderNewsQueryBuilder;
+use App\Models\OrderNews as OrderNewsModel;
 
 class NewsDataController extends Controller
 {
@@ -36,12 +38,10 @@ class NewsDataController extends Controller
      */
     public function store(Request $request)
     {
-        $req = $request->input();
-        $news_trait = new NewsController;
-        $file_path = __DIR__ .'/GetNews.txt';
-        $file_data = PHP_EOL . $req['username'] . ', ' . $req['phone'] . ', ' . $req['email']. 'ID новости: ' . $req['newsId'];
-        file_put_contents($file_path, $file_data, FILE_APPEND);
-        return $request->all();
+        $corder_model = new OrderNewsModel($request->except('_token'));
+        if ($corder_model->save()) {
+            return \redirect()->route('news');
+        }
     }
 
     /**

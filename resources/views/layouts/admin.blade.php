@@ -32,6 +32,8 @@
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/holder.min.js') }}"></script>
+    <script src="{{ asset('assets/js/function.js') }}"></script>
+
 
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
     <script>

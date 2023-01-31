@@ -17,12 +17,17 @@
         </h3>
         <div class="mb-1 text-muted">{{ $i->created_at }}</div>
         <p class="card-text mb-auto">{{ $i->description }}</p>
-        <a href="{{ route('news.show', ['id' => $i->id]) }}">Подробнее</a>
+        <a href="{{ route('news.show', ['news_id' => $i->id]) }}">Подробнее</a>
       </div>
       <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="Card image cap">
     </div>
   </div>
 @endforeach
+  
+  @if(method_exists($news, 'links'))
+    {{ $news->links() }}
+  @endif
+
 @endsection
 
 @section('feedback')
@@ -30,8 +35,8 @@
     <form method="post" action="{{ route('data.get.store') }}">
         @csrf
         <div class="form-group">
-            <label for="username">Имя</label>
-            <input type="text" id="username" name="username" class="form-control">
+            <label for="user_name">Имя</label>
+            <input type="text" id="user_name" name="user_name" class="form-control">
         </div>
         <div class="form-group">
             <label for="phone">Телефон</label>
@@ -42,8 +47,8 @@
             <input type="email" id="email" name="email" class="form-control">
         </div>
         <div class="form-group">
-            <label for="newsId">ID новости</label>
-            <input type="number" id="newsId" name="newsId" class="form-control">
+            <label for="news_id">ID новости</label>
+            <input type="number" id="news_id" name="news_id" class="form-control">
         </div>
         <button type="submit" class="btn btn-success">Получить данные</button>
     </form>

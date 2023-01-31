@@ -1,21 +1,19 @@
 @extends('layouts.admin')
 @section('content')   
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Добавить новость</h1>
+        <h1 class="h2">Список новостей</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="btn-group mr-2">
-            <button class="btn btn-sm btn-outline-secondary">Share</button>
-            <button class="btn btn-sm btn-outline-secondary">Export</button>
-            </div>
+            <a href="{{ route('admin.news.create') }}">Добавить новость</a>
         </div>
     </div>
-
+    
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>#ID</th>
                     <th>Заголовок</th>
+                    <th>Категория</th>
                     <th>Автор</th>
                     <th>Статус</th>
                     <th>Описание</th>
@@ -25,14 +23,16 @@
             </thead>
             <tbody>
                 @forelse($newsList as $news)
-                <tr>
-                    <td>{{$news->id}}</td>
+                <tr param="news" item>
+                    <td class="id" id="{{ $news->id }}" >{{$news->id}}</td>
                     <td>{{$news->title}}</td>
+                    <td>{{$news->categories->map(fn($item) => $item->title)->implode(",")}}</td>
                     <td>{{$news->author}}</td>
                     <td>{{$news->status}}</td>
                     <td>{{$news->description}}</td>
                     <td>{{$news->created_at}}</td>
-                    <td><a href="">Изм.</a> &nbsp; <a href="">Уд.</a></td>
+                    <td class="actions-td"><a href="{{ route('admin.news.edit', ['news' => $news]) }}">Изм.</a> &nbsp; 
+                    <div class="delete">Уд.</div>
                 </tr>
                 @empty
                 <tr>
@@ -41,5 +41,6 @@
                 @endforelse
             </tbody>
         </table>
+        {{ $newsList->links() }}
     </div>
 @endsection        

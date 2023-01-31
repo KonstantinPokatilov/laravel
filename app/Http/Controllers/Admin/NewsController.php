@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Models\News as NewsModel;
+use App\QueryBuilders\NewsQueryBuilder;
+use App\QueryBuilders\CategoryQueryBuilder;
+use App\Enums\NewsStatusEnum;
+use Illuminate\Http\RedirectResponse;
 
 
 class NewsController extends Controller
@@ -15,12 +19,10 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() : View
+    public function index(NewsQueryBuilder $newsQueryBuilder) : View
     {
-        $model = new NewsModel();
-        $newsList = $model->getNews();
         return \view('admin.news.index', [
-            'newsList' => $newsList,
+            'newsList' => $newsQueryBuilder->getNewsWithPagination(),
         ]);
     }
 
@@ -29,24 +31,32 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() : View
+    public function create(CategoryQueryBuilder $categoryQueryBuilder) : View
     {
-        return \view('admin.news.create');
+        return \view('admin.news.create', [
+            'categories' => $categoryQueryBuilder->get(),
+            'statuses' => NewsStatusEnum::all()
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponce
      */
-    public function store(Request $request)
+    public function store(Request $request) : RedirectResponse
     {
         $request->validate([
             'title' => 'required'
         ]);
 
-        return response()->json($request->only(['title', 'author', 'description']));
+        $news = new NewsModel($request->except('_token', 'category_id', 'image')); //News::create
+
+        if ($news->save()) {
+            return \redirect()->route('admin.news.index')->with('success', 'Новость добавлена');
+        }
+        return \back()->with('error', 'Не удалось сохранить запись');
     }
 
     /**
@@ -63,24 +73,34 @@ class NewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  NewsModel  $news
+     * @param  CategoryQueryBuilder  $categoryQueryBuilder
+     * @return View
      */
-    public function edit($id)
+    public function edit(NewsModel $news, CategoryQueryBuilder $categoryQueryBuilder) : View
     {
-        //
+        return \view('admin.news.edit', [
+            'news' => $news,
+            'categories' => $categoryQueryBuilder->get(),
+            'statuses' => NewsStatusEnum::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  NewsModel  $news
+     * @return \Illuminate\Http\RedirectResponce
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, NewsModel $news) : RedirectResponse
     {
-        //
+        $news->fill($request->except('_token', 'category_ids', 'image'));
+        if ($news->save()) {
+            $news->categories()->sync((array)$request->input('category_ids'));
+            return \redirect()->route('admin.news.index')->with('success', 'Новость обновлена');
+        }
+        return \back()->with('error', 'Не удалось сохранить запись');
     }
 
     /**
@@ -89,8 +109,8 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        
     }
 }

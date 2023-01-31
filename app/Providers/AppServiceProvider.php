@@ -1,8 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\QueryBuilders\NewsQueryBuilder;
+use App\QueryBuilders\CommentsQueryBuilder;
+use App\QueryBuilders\OrderNewsQueryBuilder;
+use App\QueryBuilders\CategoryQueryBuilder;
+use App\QueryBuilders\QueryBuilder;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(QueryBuilder::class, CategoryQueryBuilder::class);
+        $this->app->bind(QueryBuilder::class, NewsQueryBuilder::class);
+        $this->app->bind(QueryBuilder::class, CommentsQueryBuilder::class);
+        $this->app->bind(QueryBuilder::class, OrderNewsQueryBuilder::class);
     }
 
     /**
@@ -23,6 +32,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Paginator::useBootstrapFour();
     }
 }
