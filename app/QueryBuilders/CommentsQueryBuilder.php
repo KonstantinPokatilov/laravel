@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\QueryBuilders;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,5 +23,10 @@ class CommentsQueryBuilder extends QueryBuilder
     public function getById(int $id) : mixed
     {
         return $this->model->where('news_id', $id)->get();
+    }
+
+    public function delete(int $id)  : mixed
+    {
+
     }
 }

@@ -32,6 +32,11 @@
 
 @section('feedback')
   <div class="form-container">
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            <x-alert type="danger" :message="$error"></x-alert>
+        @endforeach
+    @endif
     <form method="post" action="{{ route('data.get.store') }}">
         @csrf
         <div class="form-group">

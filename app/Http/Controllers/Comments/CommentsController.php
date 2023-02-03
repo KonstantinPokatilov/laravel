@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Comments;
 
@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\NewsController;
 use App\QueryBuilders\CommentsQueryBuilder;
 use App\Models\Comments as CommentsModel;
+use App\Http\Requests\Comments\CreateRequest;
 
 
 class CommentsController extends Controller
@@ -34,15 +35,16 @@ class CommentsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\Comments\CreateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {   
-        $comments_model = new CommentsModel($request->except('_token'), $request->query);
+        $comments_model = CommentsModel::create($request->validated(), $request->query);
         if ($comments_model->save()) {
-            return \redirect()->route('news.show', ['news_id' => $request->news_id]);
+            return \redirect()->route('news.show', ['news_id' => $request->news_id])->with('success', __('messages.comment.success'));
         }
+        return \back()->with('error', __('messages.comment.fail'));
     }
 
     /**

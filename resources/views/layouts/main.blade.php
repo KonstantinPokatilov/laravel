@@ -43,6 +43,8 @@
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/holder.min.js') }}"></script>
+    <script src="{{ asset('assets/js/function.js') }}"></script>
+
     <script>
       Holder.addTheme('thumb', {
         bg: '#55595c',

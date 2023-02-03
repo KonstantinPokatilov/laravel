@@ -23,6 +23,11 @@
         </div>
         <div style="width: 300px">
             <div class="comment-title">Добавить комментарий: </div>
+                @if($errors->any())
+                    @foreach($errors->all() as $error)
+                        <x-alert type="danger" :message="$error"></x-alert>
+                    @endforeach
+                @endif
                 <form method="post" action="{{ route('comment.news.store', ['news_id' => $news->id]) }}">
                     @csrf
                     <div class="form-group">

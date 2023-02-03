@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\News;
 
@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\NewsController;
 use App\QueryBuilders\OrderNewsQueryBuilder;
 use App\Models\OrderNews as OrderNewsModel;
+use App\Http\Requests\Orders\CreateRequest;
 
 class NewsDataController extends Controller
 {
@@ -33,15 +34,16 @@ class NewsDataController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\Orders\CreateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $corder_model = new OrderNewsModel($request->except('_token'));
+        $corder_model = OrderNewsModel::create($request->validated());
         if ($corder_model->save()) {
-            return \redirect()->route('news');
+            return \redirect()->route('news')->with('success', __('messages.order.success'));
         }
+        return \back()->with('error', __('messages.order.fail'));
     }
 
     /**

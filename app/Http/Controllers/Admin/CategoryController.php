@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\QueryBuilders\CategoryQueryBuilder;
 use App\Models\Category as CategoryModel;
+use App\Http\Requests\Categories\CreateRequest;
+use App\Http\Requests\Categories\EditRequest;
 
 class CategoryController extends Controller
 {
@@ -34,16 +36,12 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\Categories\CreateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $request->validate([
-            'title' => 'required'
-        ]);
-
-        $category = new CategoryModel($request->except('_token'));
+        $category = CategoryModel::create($request->validated());
 
         if ($category->save()) {
             return \redirect()->route('admin.categories.index')->with('success', 'Категория добавлена');
@@ -78,13 +76,13 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\Categories\EditRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CategoryModel $category)
+    public function update(EditRequest $request, CategoryModel $category)
     {
-        $category->fill($request->except('_token'));
+        $category->fill($request->validated());
         if ($category->save()) {
             return \redirect()->route('admin.categories.index')->with('success', 'Категория обновлена');
         }

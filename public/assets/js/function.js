@@ -14,3 +14,9 @@ document.querySelectorAll('.delete').forEach(el => {
     })
 
 })
+
+document.querySelectorAll('.close').forEach(el => {
+    el.addEventListener('click', e => {
+        el.closest('.alert').remove()
+    })
+})
