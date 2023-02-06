@@ -158,3 +158,30 @@ h6 {
 .comment-title {
     font-size: 20px;
 }
+
+ul.navbar-nav {
+    flex-direction: inherit;
+}
+
+input[type="checkbox"] {
+    width: 0;
+}
+
+[show-block] {
+    display: flex;
+    position: absolute;
+}
+
+.auth-drop-down {
+    cursor: pointer;
+    color: #6c757d;
+    background-color: transparent;
+    background-image: none;
+    border-color: #6c757d;
+    padding: 0.25rem 0.5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+    border: 1px solid;
+    width: 160px;
+}

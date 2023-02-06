@@ -299,7 +299,8 @@ button::-moz-focus-inner {
 input[type=checkbox],
 input[type=radio] {
     box-sizing: border-box;
-    padding: 0
+    padding: 0;
+    width: 15px;
 }
 
 input[type=date],
@@ -4382,7 +4383,7 @@ tbody.collapse.show {
 }
 
 .navbar-nav .dropdown-menu {
-    position: static;
+    /* position: static; */
     float: none
 }
 

@@ -40,5 +40,13 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean'
     ];
+
+    protected $table = 'users';
+
+    public function setBoolIsAdminInput($value)
+    {
+        $this->attributes['is_admin'] = boolean($value);
+    }
 }

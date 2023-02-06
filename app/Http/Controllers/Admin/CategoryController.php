@@ -8,6 +8,7 @@ use App\QueryBuilders\CategoryQueryBuilder;
 use App\Models\Category as CategoryModel;
 use App\Http\Requests\Categories\CreateRequest;
 use App\Http\Requests\Categories\EditRequest;
+use Illuminate\Contracts\View\View;
 
 class CategoryController extends Controller
 {
@@ -16,7 +17,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(CategoryQueryBuilder $categoryQueryBuilder)
+    public function index(CategoryQueryBuilder $categoryQueryBuilder): View
     {
         return \view('admin.categories.index', [
             'categoriesList' => $categoryQueryBuilder->getCategoriesWithPagination(),

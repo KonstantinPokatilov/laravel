@@ -20,3 +20,8 @@ document.querySelectorAll('.close').forEach(el => {
         el.closest('.alert').remove()
     })
 })
+
+document.querySelector('.auth-drop-down').addEventListener('click', e => {
+    const block = document.querySelector('.dropdown-menu')
+    block.toggleAttribute('show-block')
+})
