@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use App\Events\LoginEvent;
 
 class LoginController extends Controller
 {
@@ -46,4 +47,9 @@ class LoginController extends Controller
         Auth::logout();
         return redirect()->route('news');
     }
+
+    // public function authenticated(Request $request, $user)
+    // {
+    //     event(new LoginEvent($user));
+    // }
 }

@@ -12,6 +12,8 @@
                                 <li class="nav-item">
                                 <a class="btn btn-sm btn-outline-secondary" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
+                                <a href="{{ route('social.auth.redirect', ['driver' => 'github']) }}">Вход через Github</a>
+                                <a href="{{ route('social.auth.redirect', ['driver' => 'vkontakte']) }}">Вход через ВК</a>
                             @endif
 
                             @if (Route::has('register'))

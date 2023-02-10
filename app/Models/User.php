@@ -45,6 +45,10 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
+    protected $dates = [
+        'last_login_at'
+    ];
+
     public function setBoolIsAdminInput($value)
     {
         $this->attributes['is_admin'] = boolean($value);
