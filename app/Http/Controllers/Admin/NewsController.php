@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rules\Enum;
 use App\Http\Requests\News\CreateRequest;
 use App\Http\Requests\News\EditRequest;
+use App\Services\UploadService;
 
 class NewsController extends Controller
 {
@@ -90,11 +91,17 @@ class NewsController extends Controller
      *
      * @param  App\Http\Requests\News\EditRequest  $request
      * @param  NewsModel  $news
+     * @param  App\Services\UploadService $uploadService
      * @return \Illuminate\Http\RedirectResponce
      */
-    public function update(EditRequest $request, NewsModel $news) : RedirectResponse
+    public function update(EditRequest $request, NewsModel $news, UploadService $uploadService) : RedirectResponse
     {
-        $news->fill($request->validated());
+        $validated = $request->validated();
+        
+        if ($request->file('image')) {
+            $validated['image'] = $uploadService->uploadImage($request->file('image'));
+        }
+        $news->fill($validated);
         if ($news->save()) {
             $news->categories()->sync($request->getCategoryIds());
             return \redirect()->route('admin.news.index')->with('success', 'Новость обновлена');

@@ -5,5 +5,5 @@ namespace App\Services\Contracts;
 interface Parser
 {
     public function setLink(string $string): self;
-    public function getParseData(): array;
+    public function saveParseData(): void;
 }

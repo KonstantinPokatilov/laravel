@@ -19,7 +19,7 @@
         <p class="card-text mb-auto">{{ $i->description }}</p>
         <a href="{{ route('news.show', ['news_id' => $i->id]) }}">Подробнее</a>
       </div>
-      <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="Card image cap">
+      <img src="{{ Storage::disk('public')->url($i->image) }}">
     </div>
   </div>
 @endforeach

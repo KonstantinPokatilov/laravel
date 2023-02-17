@@ -11,6 +11,7 @@ use App\Http\Controllers\Account\IndexController as AccountController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\User\UsersController;
 use App\Http\Controllers\Admin\ParserController;
+use App\Http\Controllers\Admin\SourcesController;
 use App\Http\Controllers\SocialProvidersController;
 
 Route::get('/', [NewsController::class, 'index'])->name('news');
@@ -27,6 +28,7 @@ Route::group(['middleware' => 'auth'], static function(){
         // Route::resource('categories/delete/{id}', AdminCategoryController::class);
         Route::resource('news', AdminNewsController::class);
         Route::resource('users', UsersController::class);
+        Route::resource('sources', SourcesController::class);
         Route::get('/parser', ParserController::class)->name('parser');
     });
 });

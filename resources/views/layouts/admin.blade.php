@@ -33,11 +33,18 @@
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/holder.min.js') }}"></script>
     <script src="{{ asset('assets/js/function.js') }}"></script>
-
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
     <script>
       feather.replace()
+    </script>
+    <script>
+      ClassicEditor
+          .create(document.querySelector( '#description' ))
+          .catch(error => {
+              console.error(error);
+          });
     </script>
   </body>
 </html>

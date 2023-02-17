@@ -13,8 +13,7 @@ use App\Services\Contracts\Parser;
 use App\Services\ParserService;
 use App\Services\Contracts\Social;
 use App\Services\SocialService;
-
-
+use App\Services\UploadService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Parser::class, ParserService::class);
         //Services
         $this->app->bind(Social::class, SocialService::class);
-
+        $this->app->bind(UploadService::class);
     }
 
     /**

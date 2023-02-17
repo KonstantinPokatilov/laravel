@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 use App\Services\Contracts\Parser;
 use App\Models\Currency;
+use App\Models\Sources;
+use App\Jobs\JobNewsParsing;
 
 class ParserController extends Controller
 {
@@ -18,11 +20,20 @@ class ParserController extends Controller
      */
     public function __invoke(Request $request, Parser $parser)
     {
-        $load = $parser->setLink('https://www.cbr.ru/scripts/XML_daily_eng.asp')->getParseData();
-        Currency::truncate();
-        foreach($load['Valute'] as $key => $value) {
-            $save = Currency::create($value);
+        $sourcesModel = new Sources();
+        $sources = $sourcesModel->get('link');
+        
+        foreach($sources as $key => $value) {
+            \dispatch(new JobNewsParsing($value->link));
         }
+
+        return 'ok';
+
+        // $load = $parser->setLink('https://www.cbr.ru/scripts/XML_daily_eng.asp')->getParseData();
+        // Currency::truncate();
+        // foreach($load['Valute'] as $key => $value) {
+        //     $save = Currency::create($value);
+        // }
     
     }
 }

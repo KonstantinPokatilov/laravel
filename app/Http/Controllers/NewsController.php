@@ -16,7 +16,6 @@ class NewsController extends Controller
     public function index(NewsQueryBuilder $newsQueryBuilder, CategoryQueryBuilder $categoryQueryBuilder) : View
     {
         $newsList = $newsQueryBuilder->getNewsWithPagination();
-
         $categoryList = $categoryQueryBuilder->get();
 
         return \view('news.index', ['news' => $newsList, 'categories' => $categoryList ]);

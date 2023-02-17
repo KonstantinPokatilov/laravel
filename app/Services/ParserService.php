@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Services\Contracts\Parser;
 use Orchestra\Parser\Xml\Facade as XmlParser;
+use Illuminate\Support\Facades\Storage;
 
 class ParserService implements Parser 
 {
@@ -16,14 +17,30 @@ class ParserService implements Parser
         return $this;
     }
 
-    public function getParseData(): array
+    public function saveParseData(): void
     {
         $xml = XmlParser::load($this->link);
 
-        return $xml->parse([
-            'Valute' => [
-                'uses' => 'Valute[Name,CharCode,Value]'
-            ]
+        $data = $xml->parse([
+            'title' => [
+                'uses' => 'channel.title'
+            ],
+            'description' => [
+                'uses' => 'channel.description'
+            ],
+
         ]);
+        
+        $e = \explode('/', $this->link);
+        $fileName = end($e);
+        $jsonEncode = json_encode($data);
+        
+        Storage::append('news/' . $fileName, $jsonEncode);
+        
+        // return $xml->parse([
+        //     'Valute' => [
+        //         'uses' => 'Valute[Name,CharCode,Value]'
+        //     ]
+        // ]);
     }
 }

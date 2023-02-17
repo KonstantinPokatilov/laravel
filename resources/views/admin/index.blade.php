@@ -11,6 +11,6 @@
         </div>
     </div>
     <div class="table-responsive">
-        <x-alert type="info" message="информационное сообщение"></x-alert>
+        <a href="{{ route('admin.parser') }}">Парсер</a>
     </div>
 @endsection
